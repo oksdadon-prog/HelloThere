@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayesha's Pre-Valentine Gift 💖</title>
+<style>
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #ffefba, #ff758c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .certificate {
+    background: white;
+    border: 5px dashed #ff3366;
+    border-radius: 25px;
+    padding: 40px 20px;
+    text-align: center;
+    max-width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    position: relative;
+  }
+
+  .certificate h1 {
+    color: #ff3366;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+  }
+
+  .certificate p {
+    font-size: 1rem;
+    color: #444;
+    margin: 8px 0;
+  }
+
+  .buttons {
+    margin-top: 20px;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 8px;
+    transition: transform 0.2s ease;
+  }
+
+  #yesBtn {
+    background: #ff3366;
+    color: white;
+  }
+
+  #yesBtn:hover { transform: scale(1.05); }
+
+  #noBtn {
+    background: #e0e0e0;
+    position: relative;
+  }
+
+  .heart {
+    position: fixed;
+    font-size: 20px;
+    animation: floatUp 3s linear forwards;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-200px); opacity: 0; }
+  }
+
+  /* Tree animation */
+  #tree {
+    font-size: 40px;
+    margin-top: 20px;
+    opacity: 0;
+    transform: scaleY(0);
+    display: inline-block;
+    transition: transform 3s ease, opacity 2s ease, text-shadow 3s ease;
+  }
+
+  #tree.grow {
+    opacity: 1;
+    transform: scaleY(1);
+    text-shadow: 0 0 10px #33ff33, 0 0 20px #33ff33, 0 0 30px #33ff33, 0 0 40px #33ff33;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    0% { text-shadow: 0 0 10px #33ff33, 0 0 20px #33ff33, 0 0 30px #33ff33, 0 0 40px #33ff33; }
+    100% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="certificate">
+  <h1>Ayesha’s Pre-Valentine Gift 🎁</h1>
+  <p>This is a gift for you, something that is <strong>forever</strong>…</p>
+  <p>💚 I planted a tree in Palestine in your name 💚</p>
+  <p>🎶 And a romantic song just for you 🎶</p>
+
+  <div class="buttons">
+    <button id="yesBtn">Claim Your Gift 💕</button>
+    <button id="noBtn">Not yet 🙃</button>
+  </div>
+
+  <p id="message"></p>
+  <div id="tree">🌳</div>
+</div>
+
+<!-- Audio -->
+<audio id="song" preload="auto" src="song.mp3"></audio>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+const song = document.getElementById("song");
+const tree = document.getElementById("tree");
+
+const noMessages = [
+  "Ayesha please na koiro 🥺",
+  "Hey… eto taratari no bolo na 😔",
+  "Just think once, meri jaan 💭💞",
+  "Mon ta ektu hurt hoye gelo 💔",
+  "Ayeshaaa 😭 ekbar yes bolo na",
+  "You’re too cute to say no, meri jaan 🥹",
+  "Ami ektu shy hoye gesi 🙈",
+  "Please meri jaan, last chance 😤💘",
+  "No button ta honestly sirf dikhane ke liye 😏"
+];
+
+let noCount = 0;
+
+function moveNoButton() {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 120);
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  message.textContent = noMessages[Math.min(noCount, noMessages.length - 1)];
+  noCount++;
+  yesBtn.style.transform = `scale(${1 + noCount * 0.05})`;
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+yesBtn.addEventListener("click", () => {
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+
+  message.innerHTML = `
+    YAYYY 💖💞<br>
+    Enjoy your Pre-Valentine gift, meri jaan! 😌🌹<br>
+    💚 Your tree in Palestine will grow forever 🌱
+  `;
+
+  createHearts();
+
+  setTimeout(() => tree.classList.add("grow"), 500);
+  setTimeout(() => song.play(), 1500);
+});
+
+function createHearts() {
+  const icons = ["💗","💖","🌸","✨"];
+  for (let i = 0; i < 30; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = icons[Math.floor(Math.random() * icons.length)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "100vh";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+  }
+}
+</script>
+
+</body>
+</html>
